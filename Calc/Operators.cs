@@ -3,35 +3,45 @@ using System.Collections.Generic;
 
 namespace Calc
 {
-    class Operators
+    public abstract class Operators 
     {
-        public const string OpenBracket = "(";
-        public const string CloseBracket = ")";
-        public const string Plus = "+";
-        public const string Minus = "-";
-        public const string Multiplication = "*";
-        public const string Division = "/";
+        public abstract string Name;
+        public abstract int Priority;
+        public abstract double action(double first, double second);
+    }
 
-        public static readonly Dictionary<string, int> Priority = new Dictionary<string, int>
-        {
-            {OpenBracket, 0},
-            {CloseBracket, 0},
-            {Plus, 1},
-            {Minus, 1},
-            {Multiplication, 2},
-            {Division, 2}
-        };
-
-        public static double action(string operation, double first, double second)
-        {
-            switch (operation)
-            {
-                case Plus: return first + second;
-                case Minus: return first - second;
-                case Multiplication: return first * second;
-                case Division: return first / second;
-                default: throw new Exception("Invalid operator!");
-            }
-        }
+    class Plus: Operators
+    {
+        public override string Name => "+";
+        public override int Priority => 1;
+        public override double action(double first, double second) { return first + second }
+    }
+    class Minus : Operators
+    {
+        public override string Name => "-";
+        public override int Priority => 1;
+        public override double action(double first, double second) { return first - second }
+    }
+    class Multiplication : Operators
+    {
+        public override string Name => "*";
+        public override int Priority => 2;
+        public override double action(double first, double second) { return first * second }
+    }
+    class Division : Operators
+    {
+        public override string Name => "/";
+        public override int Priority => 2;
+        public override double action(double first, double second) { return first / second }
+    }
+    class OpenBracket : Operators
+    {
+        public override string Name => "(";
+        public override int Priority => 0;
+    }
+    class CloseBracket : Operators
+    {
+        public override string Name => ")";
+        public override int Priority => 0;
     }
 }
